@@ -1,0 +1,57 @@
+
+Ток с файла авторизации
+package com.example.myapplication;
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Insets;
+import android.os.Build;
+import android.os.Bundle;
+import android.widget.EditText;
+import android.widget.Button;
+import android.widget.Toast;
+import androidx.activity.ComponentActivity;
+import androidx.activity.EdgeToEdge;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class Avtorizacia extends ComponentActivity {
+    EditText loginExitText, passwordExitText, nameExitText;
+    Button button2;
+    
+    @SuppressLint({"MissingInflatedId", "WrongViewCast"})
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.strings);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main1), (v, insets) -> {
+            Insets systemBars = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars()).toPlatformInsets();
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            }
+            return insets;
+        });
+
+        button2 = findViewById(R.id.button2);
+        nameExitText = findViewById(R.id.editTextName);
+        loginExitText = findViewById(R.id.editTextLogin);
+        passwordExitText = findViewById(R.id.editTextPassword);
+
+        button2.setOnClickListener(v -> {
+            String name = nameExitText.getText().toString();
+            String login = loginExitText.getText().toString();
+            String password = passwordExitText.getText().toString();
+
+            if (login.equals("Login") && password.equals("Password") && name.equals("Name")) {
+                Toast.makeText(this, "Вы успешно авторизовались", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(this, Avtorizacia.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Неправильный логин или пароль", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+}
